@@ -7,7 +7,7 @@ export const analyzeFaceAndCrystal = async (
   userInfo: UserInfo,
   availableCrystals: CrystalProduct[]
 ): Promise<AnalysisResult> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
   const prompt = `
     你是一位精通面相學（Physiognomy）、能量閱讀與水晶療癒的專家。請分析提供的面部圖像和用戶資訊。

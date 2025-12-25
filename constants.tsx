@@ -13,75 +13,75 @@ import { CrystalProduct } from './types';
 export const CRYSTAL_PRODUCTS: CrystalProduct[] = [
   {
     id: 'c1',
-    name: '極光紫晶 (Amethyst Elite)',
-    description: '選用烏拉圭深紫晶原石磨製，對應頂輪能量。這款手鍊能協助您在繁雜的工作中保持冷靜，並在夜晚獲得深層補給。',
-    benefit: '開發智慧、穩定情緒、改善睡眠品質。',
-    image: 'https://images.unsplash.com/photo-1551121698-45840cb30f04?q=80&w=800&auto=format&fit=crop',
+    name: '靜謐藍月 (Silent Blue Moon)',
+    description: '結合藍紋瑪瑙的安撫與月光石的溫柔，輔以藍摩根石的柔軟力量。這款手鍊能協助您釋放深層焦慮，在夜晚獲得寧靜的休息，並提升人際互動的柔和度。',
+    benefit: '情緒安撫、改善睡眠、提升柔和溝通力。',
+    image: '/images/IMG_6813.JPG',
     price: 1680,
-    tags: ['智慧', '平靜', '靈性']
+    tags: ['放鬆', '睡眠', '溝通', '藍色系']
   },
   {
     id: 'c2',
-    name: '初戀粉晶 (Rose Love)',
-    description: '馬達加斯加粉晶，散發柔和的粉紅光波。這不僅是一件飾品，更是溫柔能量的載體，讓您從內而外散發迷人吸引力。',
-    benefit: '增進人緣、守護愛情、療癒內在小孩。',
-    image: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?q=80&w=800&auto=format&fit=crop',
-    price: 1200,
-    tags: ['愛情', '人際', '療癒']
+    name: '海洋之眼 (Ocean Eye)',
+    description: '海藍寶與天河石帶來的勇氣與流動，搭配拉長石的直覺守護。適合思緒容易緊繃的您，幫助找回內在的清晰與自信的表達。',
+    benefit: '釋放壓力、提升直覺、增強表達自信。',
+    image: '/images/IMG_6814.JPG',
+    price: 1880,
+    tags: ['自信', '直覺', '表達', '藍綠色系']
   },
   {
     id: 'c3',
-    name: '招財黃晶 (Wealth Citrine)',
-    description: '天然黃水晶被譽為「商人石」。它強大的太陽能量能激發您的自信與顯化力，吸引事業上的貴人與財富。',
-    benefit: '凝聚財氣、激發創造力、增強消化系統能量。',
-    image: 'https://images.unsplash.com/photo-1615484477778-ca3b77940c25?q=80&w=800&auto=format&fit=crop',
-    price: 2280,
-    tags: ['財富', '事業', '自信']
+    name: '天堂之淚 (Teardrop of Heaven)',
+    description: '月光石與藍托帕石的理性與感性交織，加上天空藍冰種玉珠的清透。協助您在混亂中保持冷靜，看見事物的本質，並溫柔地堅定立場。',
+    benefit: '理性思考、心靈覺察、溫柔堅定。',
+    image: '/images/IMG_6815.JPG',
+    price: 1980,
+    tags: ['雖然', '冷靜', '覺察', '藍白色系']
   },
   {
     id: 'c4',
-    name: '至尊黑曜 (Obsidian Shield)',
-    description: '墨西哥彩虹黑曜石，具有強大的避邪與護身效果。它能吸收您周遭的負面情緒磁場，保護靈魂不受外界干擾。',
-    benefit: '辟邪化煞、吸納負能量、排除病氣。',
-    image: 'https://images.unsplash.com/photo-1611085583191-a3b1a308c1f1?q=80&w=800&auto=format&fit=crop',
-    price: 990,
-    tags: ['防護', '穩定', '辟邪']
+    name: '紫羅蘭光 (Violet Light)',
+    description: '紫水晶與菫青石的神祕頻率，指引內在方向。當您感到迷惘或需要做決策時，它能淨化雜念，讓靈性的直覺帶領您看清前路。',
+    benefit: '專注清晰、靈性提升、指引方向。',
+    image: '/images/IMG_6816.JPG',
+    price: 1780,
+    tags: ['靈性', '智慧', '決策', '紫色系']
   },
   {
     id: 'c5',
-    name: '深海青金 (Lapis Insight)',
-    description: '阿富汗頂級青金石，鑲嵌天然金星。它能幫助您開啟「第三眼」，在迷惘的人生抉擇中看見清澈的真相。',
-    benefit: '提升洞察力、加強溝通能量、緩解喉部不適。',
-    image: 'https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?q=80&w=800&auto=format&fit=crop',
-    price: 1850,
-    tags: ['直覺', '溝通', '冷靜']
+    name: '薔薇之戀 (Rose Romance)',
+    description: '紅紋石與草莓晶的愛之能量，點燃對生活的熱情。這是一首關於自我接納與展現魅力的頌歌，讓您在人群中散發溫暖而自信的光芒。',
+    benefit: '自我療癒、提升魅力、增強行動力。',
+    image: '/images/IMG_6817.JPG',
+    price: 2280,
+    tags: ['愛情', '魅力', '熱情', '紅色系']
   },
   {
     id: 'c6',
-    name: '天河之光 (Amazonite Flow)',
-    description: '如翠綠湖水般的 Amazonite，又稱希望之石。它能平定受挫後的心靈，讓能量重新恢復流動，帶來再次嘗試的勇氣。',
-    benefit: '增強投機運、平衡情緒、消除悲觀思維。',
-    image: 'https://images.unsplash.com/photo-1615484477201-9f4953340fab?q=80&w=800&auto=format&fit=crop',
-    price: 1450,
-    tags: ['希望', '幸運', '勇氣']
+    name: '晨曦金光 (Golden Dawn)',
+    description: '太陽石與金草莓的耀眼光芒，如同初升旭日。為您驅散內心的陰霾，注入滿滿的行動力與正向希望，吸引能夠賞識您的人。',
+    benefit: '自信行動、正向樂觀、吸引貴人。',
+    image: '/images/IMG_6818.JPG',
+    price: 1980,
+    tags: ['自信', '好運', '行動', '橙金色系']
   },
   {
     id: 'c7',
-    name: '白水晶簇 (Pure Quartz)',
-    description: '萬用療癒之石。純淨的白水晶能放大其他水晶的能量，並淨化您的個人能量場，適合在重要決策前佩戴。',
-    benefit: '淨化磁場、集中注意力、放大願望強度。',
-    image: 'https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=800&auto=format&fit=crop',
-    price: 1100,
-    tags: ['淨化', '全能', '清晰']
+    name: '森林甦醒 (Forest Awake)',
+    description: '葡萄石的療癒綠光與黃水晶的豐盛能量。像是在森林中深呼吸，釋放焦慮的同時，也為自己注入吸引財富與美好事物的正能量。',
+    benefit: '情緒療癒、招財聚氣、舒緩壓力。',
+    image: '/images/IMG_6819.JPG',
+    price: 1880,
+    tags: ['療癒', '財富', '健康', '黃綠色系']
   },
   {
     id: 'c8',
-    name: '草莓晶緣 (Strawberry Spirit)',
-    description: '獨特的草莓點狀包體，象徵積極與熱情。它能讓佩戴者變得更加主動，在社交場合中散發不經意的魅力。',
-    benefit: '提升主動性、增強愛情運、保持心情愉快。',
-    image: 'https://images.unsplash.com/photo-1569397270337-9390317b39ca?q=80&w=800&auto=format&fit=crop',
-    price: 1380,
-    tags: ['魅力', '積極', '人緣']
+    name: '甜美初戀 (Sweet First Love)',
+    description: '粉晶與草莓晶的經典組合，純粹而美好。協助您療癒過去的情感印記，重新打開心房，迎接真摯的愛與友誼。',
+    benefit: '增進異性緣、穩定感情、療癒創傷。',
+    image: '/images/IMG_6820.JPG',
+    price: 1580,
+    tags: ['愛情', '人緣', '甜美', '粉色系']
   }
 ];
 
