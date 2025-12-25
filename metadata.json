@@ -1,0 +1,7 @@
+{
+  "name": "靈曦水晶 AI - 個人化面像與水晶能量分析",
+  "description": "這是一款結合 AI 技術、面相學與個人數據的應用程式，旨在為您推薦最契合個人能量場的水晶手鍊，提升運勢與身心和諧。",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
