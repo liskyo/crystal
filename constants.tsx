@@ -217,5 +217,11 @@ export const INTENTS = [
   '內在寧靜與冥想 (Peace)',
   '財富豐饒 (Wealth)',
   '身體健康與活力 (Health)',
-  '創意靈感 (Creativity)'
+  '創意靈感 (Creativity)',
+  '提升人緣與貴人運 (Social Connection & Nobleman Luck)',
+  '避邪擋煞與防小人 (Protection & Warding off Evil)',
+  '增強自信與領導力 (Confidence & Leadership)',
+  '考試順利與智慧增長 (Academic Success & Wisdom)',
+  '釋放壓力與情緒療癒 (Stress Relief & Emotional Healing)',
+  '家庭和樂與家運 (Family Harmony & Fortune)'
 ];
