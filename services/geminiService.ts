@@ -7,6 +7,7 @@ export const analyzeFaceAndCrystal = async (
   userInfo: UserInfo,
   availableCrystals: CrystalProduct[]
 ): Promise<AnalysisResult> => {
+  console.log("API Key loaded:", import.meta.env.VITE_GEMINI_API_KEY ? "Yes (Length: " + import.meta.env.VITE_GEMINI_API_KEY.length + ")" : "No");
   const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
 
   const prompt = `
