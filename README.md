@@ -2,7 +2,7 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# 靈曦水晶 AI - 個人化面相與水晶能量分析
+# ROPU PON 晶飾 - 個人化面相與水晶能量分析
 
 這是一個結合個人化面相分析與水晶能量推薦的 AI 應用程式。
 

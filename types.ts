@@ -1,7 +1,7 @@
 
 export interface UserInfo {
   name: string;
-  birthDate: string;
+  gender: string;
   intent: string;
 }
 

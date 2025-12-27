@@ -15,7 +15,7 @@ export const analyzeFaceAndCrystal = async (
     
     用戶資訊：
     姓名：${userInfo.name}
-    出生日期：${userInfo.birthDate}
+    性別：${userInfo.gender}
     核心意圖：${userInfo.intent}
 
     現有水晶庫存：

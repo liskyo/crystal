@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserInfo, AppState, AnalysisResult, CrystalProduct } from './types';
 import { CRYSTAL_PRODUCTS, INTENTS } from './constants';
 import { analyzeFaceAndCrystal } from './services/geminiService';
@@ -8,11 +8,22 @@ import CrystalCard from './components/CrystalCard';
 
 const App: React.FC = () => {
   const [state, setState] = useState<AppState>(AppState.IDLE);
-  const [userInfo, setUserInfo] = useState<UserInfo>({ name: '', birthDate: '', intent: INTENTS[0] });
+  const [userInfo, setUserInfo] = useState<UserInfo>({ name: '', gender: '', intent: INTENTS[0] });
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<CrystalProduct | null>(null);
+  const [visitorCount, setVisitorCount] = useState<number>(1234);
+
+  useEffect(() => {
+    const savedCount = localStorage.getItem('visitorCount');
+    let newCount = 1234;
+    if (savedCount) {
+      newCount = parseInt(savedCount, 10) + 1;
+    }
+    setVisitorCount(newCount);
+    localStorage.setItem('visitorCount', newCount.toString());
+  }, []);
 
   const recommendedProduct = result
     ? CRYSTAL_PRODUCTS.find(p => p.id === result.suggestedCrystalId) || CRYSTAL_PRODUCTS[0]
@@ -26,7 +37,7 @@ const App: React.FC = () => {
 
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (userInfo.name && userInfo.birthDate) {
+    if (userInfo.name && userInfo.gender) {
       setState(AppState.SCANNING);
     }
   };
@@ -160,14 +171,27 @@ const App: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">出生日期</label>
-                <input
-                  required
-                  type="date"
-                  value={userInfo.birthDate}
-                  onChange={e => setUserInfo(prev => ({ ...prev, birthDate: e.target.value }))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
-                />
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">性別</label>
+                <div className="flex gap-4">
+                  {['男', '女', '其他'].map((g) => (
+                    <label key={g} className="flex-1 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={userInfo.gender === g}
+                        onChange={() => setUserInfo(prev => ({ ...prev, gender: g }))}
+                        className="hidden"
+                      />
+                      <div className={`
+                        text-center py-3 rounded-xl border transition-all font-bold
+                        ${userInfo.gender === g
+                          ? 'bg-indigo-500 text-white border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600'}
+                      `}>
+                        {g}
+                      </div>
+                    </label>
+                  ))}
+                </div>
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">當前期望的能量</label>
@@ -334,7 +358,7 @@ const App: React.FC = () => {
               ))}
             </div>
             <div className="text-xs text-slate-400">
-              本週已有 <span className="text-white font-bold">1,200+</span> 位有緣人完成頻率匹配
+              今年已有 <span className="text-white font-bold">{visitorCount.toLocaleString()}</span> 位有緣人完成頻率匹配
             </div>
           </div>
           <div className="hidden md:flex gap-4">
