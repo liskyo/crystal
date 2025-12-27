@@ -109,7 +109,7 @@ const App: React.FC = () => {
       <main className="w-full">
         {state === AppState.IDLE && (
           <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <div className="relative inline-block mb-8">
+            <div className="relative inline-block mb-8 aura-container">
               <img
                 src="https://images.unsplash.com/photo-1567016507665-356928ac6679?q=80&w=800&auto=format&fit=crop"
                 alt="Mystical Crystals"
@@ -118,7 +118,7 @@ const App: React.FC = () => {
               <div className="absolute inset-0 flex items-center justify-center">
                 <button
                   onClick={handleStart}
-                  className="bg-white text-indigo-950 px-10 py-5 rounded-2xl font-black text-xl shadow-2xl hover:bg-indigo-50 hover:scale-105 active:scale-95 transition-all"
+                  className="btn-cosmic px-12 py-6 rounded-2xl font-black text-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all"
                 >
                   開始個人能量占卜
                 </button>

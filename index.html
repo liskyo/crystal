@@ -88,6 +88,64 @@
         background-position: 200% center;
       }
     }
+
+    @keyframes cosmic-pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 20px rgba(139, 92, 246, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+      }
+    }
+
+    @keyframes btn-bg-flow {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .btn-cosmic {
+      background: linear-gradient(45deg, #4f46e5, #7c3aed, #db2777, #4f46e5);
+      background-size: 300% 300%;
+      animation: btn-bg-flow 6s ease infinite, cosmic-pulse 2s infinite;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-cosmic:hover {
+      background-size: 400% 400%;
+      animation: btn-bg-flow 3s ease infinite, cosmic-pulse 1s infinite;
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+      transform: scale(1.05);
+    }
+
+    .aura-container {
+      position: relative;
+    }
+
+    .aura-container::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(139, 92, 246, 0.1) 50%, transparent 70%);
+      z-index: -1;
+      animation: cosmic-pulse 3s infinite;
+      border-radius: 50%;
+    }
   </style>
 </head>
 
