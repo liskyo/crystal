@@ -99,7 +99,7 @@ const App: React.FC = () => {
           精準能量場分析系統
         </div>
         <h1 className="text-5xl md:text-7xl font-serif font-black mb-4 tracking-tight whitespace-nowrap text-crystal">
-          ROPU PON 晶飾
+          ROPU PON <span className="text-crystal-highlight">晶飾</span>
         </h1>
         <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
           結合千年面相學與現代 AI 技術。透過捕捉面部細節，揭示您靈魂此刻正共振的水晶頻率。

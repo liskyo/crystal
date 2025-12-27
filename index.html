@@ -58,6 +58,36 @@
       background-clip: text;
       animation: crystal-shimmer 3s ease-in-out infinite;
     }
+
+    .text-crystal-highlight {
+      background: linear-gradient(90deg,
+          #f472b6 0%,
+          /* Pink */
+          #fbbf24 25%,
+          /* Gold */
+          #c084fc 50%,
+          /* Purple */
+          #facc15 75%,
+          /* Yellow */
+          #f472b6 100%
+          /* Back to Pink */
+        );
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: crystal-flow 3s linear infinite;
+    }
+
+    @keyframes crystal-flow {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
   </style>
 </head>
 
