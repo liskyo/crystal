@@ -14,11 +14,11 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<CrystalProduct | null>(null);
 
-  const recommendedProduct = result 
+  const recommendedProduct = result
     ? CRYSTAL_PRODUCTS.find(p => p.id === result.suggestedCrystalId) || CRYSTAL_PRODUCTS[0]
     : null;
 
-  const otherProducts = result 
+  const otherProducts = result
     ? CRYSTAL_PRODUCTS.filter(p => p.id !== result.suggestedCrystalId)
     : CRYSTAL_PRODUCTS;
 
@@ -59,7 +59,7 @@ const App: React.FC = () => {
       {selectedProduct && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="relative w-full max-w-2xl bg-slate-900 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
-            <button 
+            <button
               onClick={() => setSelectedProduct(null)}
               className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all"
             >
@@ -98,8 +98,8 @@ const App: React.FC = () => {
         <div className="inline-block px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest uppercase mb-4">
           精準能量場分析系統
         </div>
-        <h1 className="text-5xl md:text-7xl font-serif font-black mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500 tracking-tight">
-          靈曦水晶 AI
+        <h1 className="text-5xl md:text-7xl font-serif font-black mb-4 tracking-tight whitespace-nowrap text-crystal">
+          ROPU PON 晶飾
         </h1>
         <p className="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
           結合千年面相學與現代 AI 技術。透過捕捉面部細節，揭示您靈魂此刻正共振的水晶頻率。
@@ -110,13 +110,13 @@ const App: React.FC = () => {
         {state === AppState.IDLE && (
           <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <div className="relative inline-block mb-8">
-              <img 
-                src="https://images.unsplash.com/photo-1567016507665-356928ac6679?q=80&w=800&auto=format&fit=crop" 
-                alt="Mystical Crystals" 
+              <img
+                src="https://images.unsplash.com/photo-1567016507665-356928ac6679?q=80&w=800&auto=format&fit=crop"
+                alt="Mystical Crystals"
                 className="w-full max-w-2xl h-80 object-cover rounded-[3rem] shadow-2xl opacity-60 grayscale hover:grayscale-0 transition-all duration-1000"
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <button 
+                <button
                   onClick={handleStart}
                   className="bg-white text-indigo-950 px-10 py-5 rounded-2xl font-black text-xl shadow-2xl hover:bg-indigo-50 hover:scale-105 active:scale-95 transition-all"
                 >
@@ -150,9 +150,9 @@ const App: React.FC = () => {
             <form onSubmit={handleInfoSubmit} className="space-y-6">
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">您的姓名</label>
-                <input 
+                <input
                   required
-                  type="text" 
+                  type="text"
                   value={userInfo.name}
                   onChange={e => setUserInfo(prev => ({ ...prev, name: e.target.value }))}
                   className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
@@ -161,9 +161,9 @@ const App: React.FC = () => {
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">出生日期</label>
-                <input 
+                <input
                   required
-                  type="date" 
+                  type="date"
                   value={userInfo.birthDate}
                   onChange={e => setUserInfo(prev => ({ ...prev, birthDate: e.target.value }))}
                   className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
@@ -171,7 +171,7 @@ const App: React.FC = () => {
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">當前期望的能量</label>
-                <select 
+                <select
                   value={userInfo.intent}
                   onChange={e => setUserInfo(prev => ({ ...prev, intent: e.target.value }))}
                   className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
@@ -179,7 +179,7 @@ const App: React.FC = () => {
                   {INTENTS.map(i => <option key={i} value={i}>{i}</option>)}
                 </select>
               </div>
-              <button 
+              <button
                 type="submit"
                 className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl transition-all"
               >
@@ -254,8 +254,8 @@ const App: React.FC = () => {
                     {result.recommendationReason}
                   </p>
                 </div>
-                
-                <button 
+
+                <button
                   onClick={reset}
                   className="text-slate-500 text-sm hover:text-indigo-400 transition-colors flex items-center gap-2"
                 >
@@ -271,9 +271,9 @@ const App: React.FC = () => {
                 </div>
                 {recommendedProduct && (
                   <div className="w-full max-w-md">
-                    <CrystalCard 
-                      product={recommendedProduct} 
-                      isRecommendation 
+                    <CrystalCard
+                      product={recommendedProduct}
+                      isRecommendation
                       onAction={setSelectedProduct}
                     />
                   </div>
@@ -290,7 +290,7 @@ const App: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {otherProducts.map(p => (
                   <div key={p.id} className="relative group">
-                    <div 
+                    <div
                       onClick={() => setSelectedProduct(p)}
                       className="cursor-pointer bg-slate-900/40 border border-slate-800 rounded-3xl overflow-hidden hover:border-indigo-500/50 transition-all hover:-translate-y-2"
                     >
@@ -325,11 +325,11 @@ const App: React.FC = () => {
           <div className="flex items-center gap-4">
             <div className="flex -space-x-2">
               {[1, 2, 3].map(i => (
-                <img 
-                  key={i} 
-                  src={`https://picsum.photos/seed/${i + 50}/32/32`} 
-                  className="w-8 h-8 rounded-full border-2 border-slate-900" 
-                  alt="Reviewer" 
+                <img
+                  key={i}
+                  src={`https://picsum.photos/seed/${i + 50}/32/32`}
+                  className="w-8 h-8 rounded-full border-2 border-slate-900"
+                  alt="Reviewer"
                 />
               ))}
             </div>
@@ -342,7 +342,7 @@ const App: React.FC = () => {
               <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> 能量實驗室認證
             </span>
             <span className="text-[10px] text-slate-500 uppercase tracking-widest flex items-center gap-1">
-               加密星際交易
+              加密星際交易
             </span>
           </div>
         </div>

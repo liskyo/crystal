@@ -27,6 +27,37 @@
     .glow-border {
       box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
     }
+
+    @keyframes crystal-shimmer {
+      0% {
+        background-position: 0% 50%;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      }
+
+      50% {
+        background-position: 100% 50%;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(167, 139, 250, 0.6);
+      }
+
+      100% {
+        background-position: 0% 50%;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .text-crystal {
+      background: linear-gradient(270deg,
+          #ffffff 0%,
+          #a5b4fc 25%,
+          #e0e7ff 50%,
+          #a5b4fc 75%,
+          #ffffff 100%);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: crystal-shimmer 3s ease-in-out infinite;
+    }
   </style>
 </head>
 
