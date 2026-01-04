@@ -22,6 +22,9 @@ export const analyzeFaceAndCrystal = async (
     ${availableCrystals.map(c => `- ID: ${c.id}, 名稱: ${c.name}, 功效: ${c.benefit}`).join('\n')}
 
     請根據影像中的面部特徵進行「靈氣能量閱讀」。
+    **重要檢查**：請首先檢查圖片中是否包含清晰的人類五官。如果無法識別出清晰的面部（例如：圖片模糊、非人像、遮擋嚴重），請將返回 JSON 中的 `faceDetected` 設為 `false`，其餘欄位留空字串或空陣列。如果五官清晰，請將 `faceDetected` 設為 `true` 並繼續分析。
+
+    **分析指引**（僅在 faceDetected 為 true 時）：
     請使用專業的面相學術語（如：天庭、地閣、財帛宮、眉宇間等）解釋特徵與其「${userInfo.intent}」及當前人生運勢的關聯。
     接著，從庫存中挑選一款最適合的水晶，幫助其平衡能量或達成目標。
 
@@ -34,7 +37,7 @@ export const analyzeFaceAndCrystal = async (
   `;
 
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
+    model: "gemini-1.5-flash",
     contents: [
       {
         parts: [
@@ -53,6 +56,7 @@ export const analyzeFaceAndCrystal = async (
       responseSchema: {
         type: Type.OBJECT,
         properties: {
+          faceDetected: { type: Type.BOOLEAN, description: "是否檢測到清晰的五官" },
           faceTraits: {
             type: Type.ARRAY,
             items: {
@@ -69,7 +73,7 @@ export const analyzeFaceAndCrystal = async (
           recommendationReason: { type: Type.STRING, description: "說服力強的解釋，說明為何這款水晶對其現在至關重要" },
           suggestedCrystalId: { type: Type.STRING, description: "推薦的水晶 ID" }
         },
-        required: ["faceTraits", "auraColor", "energyReading", "recommendationReason", "suggestedCrystalId"]
+        required: ["faceDetected", "faceTraits", "auraColor", "energyReading", "recommendationReason", "suggestedCrystalId"]
       }
     }
   });

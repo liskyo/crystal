@@ -1,9 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { UserInfo, AppState, AnalysisResult, CrystalProduct } from './types';
+import { UserInfo, AppState, AnalysisResult, CrystalProduct, DivinationMode } from './types';
 import { CRYSTAL_PRODUCTS, INTENTS } from './constants';
 import { analyzeFaceAndCrystal } from './services/geminiService';
 import CameraFeed from './components/CameraFeed';
+import PhotoUpload from './components/PhotoUpload';
 import CrystalCard from './components/CrystalCard';
 
 const App: React.FC = () => {
@@ -14,6 +15,7 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<CrystalProduct | null>(null);
   const [visitorCount, setVisitorCount] = useState<number>(1234);
+  const [divinationMode, setDivinationMode] = useState<DivinationMode>(DivinationMode.SELF);
 
   useEffect(() => {
     const savedCount = localStorage.getItem('visitorCount');
@@ -33,7 +35,11 @@ const App: React.FC = () => {
     ? CRYSTAL_PRODUCTS.filter(p => p.id !== result.suggestedCrystalId)
     : CRYSTAL_PRODUCTS;
 
-  const handleStart = () => setState(AppState.INPUT);
+  const handleStart = (mode: DivinationMode) => {
+    setDivinationMode(mode);
+    setUserInfo(prev => ({ ...prev, name: '', gender: '' })); // Reset info for new session
+    setState(AppState.INPUT);
+  };
 
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,11 +53,19 @@ const App: React.FC = () => {
     setState(AppState.ANALYZING);
     try {
       const analysis = await analyzeFaceAndCrystal(image, userInfo, CRYSTAL_PRODUCTS);
-      setResult(analysis);
-      setState(AppState.RESULT);
+      if (analysis.faceDetected) {
+        setResult(analysis);
+        setState(AppState.RESULT);
+      } else {
+        throw new Error("Unable to detect face");
+      }
     } catch (err) {
       console.error(err);
-      setError("宇宙訊號微弱，請再嘗試一次。");
+      if (err instanceof Error && err.message === "Unable to detect face") {
+        setError("無法辨識清晰五官，請上傳五官清晰的照片以利能量解析。");
+      } else {
+        setError("宇宙訊號微弱，請再嘗試一次。");
+      }
       setState(AppState.SCANNING);
     }
   };
@@ -126,12 +140,18 @@ const App: React.FC = () => {
                 alt="Mystical Crystals"
                 className="w-full max-w-2xl h-80 object-cover rounded-[3rem] shadow-2xl opacity-60 grayscale hover:grayscale-0 transition-all duration-1000"
               />
-              <div className="absolute inset-0 flex items-center justify-center">
+              <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center gap-6">
                 <button
-                  onClick={handleStart}
-                  className="btn-cosmic px-12 py-6 rounded-2xl font-black text-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all"
+                  onClick={() => handleStart(DivinationMode.SELF)}
+                  className="btn-cosmic px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all text-center min-w-[200px]"
                 >
                   開始個人能量占卜
+                </button>
+                <button
+                  onClick={() => handleStart(DivinationMode.LOVED_ONE)}
+                  className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:bg-white/20 hover:scale-105 active:scale-95 transition-all text-center min-w-[200px]"
+                >
+                  幫我所愛的人占卜
                 </button>
               </div>
             </div>
@@ -157,10 +177,14 @@ const App: React.FC = () => {
 
         {state === AppState.INPUT && (
           <div className="max-w-md mx-auto bg-slate-900/50 backdrop-blur-xl border border-slate-800 p-10 rounded-3xl animate-in zoom-in-95 duration-500">
-            <h2 className="text-2xl font-serif font-bold mb-6 text-center">輸入基本資料</h2>
+            <h2 className="text-2xl font-serif font-bold mb-6 text-center">
+              {divinationMode === DivinationMode.LOVED_ONE ? '輸入所愛之人的資料' : '輸入您的基本資料'}
+            </h2>
             <form onSubmit={handleInfoSubmit} className="space-y-6">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">您的姓名</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">
+                  {divinationMode === DivinationMode.LOVED_ONE ? '對方姓名' : '您的姓名'}
+                </label>
                 <input
                   required
                   type="text"
@@ -207,7 +231,7 @@ const App: React.FC = () => {
                 type="submit"
                 className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-4 rounded-xl transition-all"
               >
-                前往靈氣捕捉
+                {divinationMode === DivinationMode.LOVED_ONE ? '前往上傳照片' : '前往靈氣捕捉'}
               </button>
             </form>
           </div>
@@ -215,10 +239,18 @@ const App: React.FC = () => {
 
         {state === AppState.SCANNING && (
           <div className="flex flex-col items-center animate-in fade-in duration-500">
-            <h2 className="text-2xl font-serif font-bold mb-8 text-center">將面部對準能量場中心</h2>
-            <CameraFeed onCapture={handleCapture} />
+            <h2 className="text-2xl font-serif font-bold mb-8 text-center">
+              {divinationMode === DivinationMode.LOVED_ONE ? '上傳對方的清晰照片' : '將面部對準能量場中心'}
+            </h2>
+            {divinationMode === DivinationMode.LOVED_ONE ? (
+              <PhotoUpload onCapture={handleCapture} />
+            ) : (
+              <CameraFeed onCapture={handleCapture} />
+            )}
             <p className="mt-8 text-slate-500 text-sm max-w-sm text-center leading-relaxed">
-              請在光線充足處進行。您的五官輪廓是解讀靈魂共振頻率的關鍵。
+              {divinationMode === DivinationMode.LOVED_ONE
+                ? '請選擇一張五官清晰、光線充足的照片。面相特徵是解讀其靈魂共振頻率的關鍵。'
+                : '請在光線充足處進行。您的五官輪廓是解讀靈魂共振頻率的關鍵。'}
             </p>
           </div>
         )}

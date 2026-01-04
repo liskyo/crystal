@@ -16,6 +16,7 @@ export interface CrystalProduct {
 }
 
 export interface AnalysisResult {
+  faceDetected: boolean;
   faceTraits: {
     trait: string;
     meaning: string;
@@ -33,3 +34,9 @@ export enum AppState {
   ANALYZING = 'ANALYZING',
   RESULT = 'RESULT'
 }
+
+export enum DivinationMode {
+  SELF = 'SELF',
+  LOVED_ONE = 'LOVED_ONE'
+}
+
