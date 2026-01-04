@@ -22,7 +22,7 @@ export const analyzeFaceAndCrystal = async (
     ${availableCrystals.map(c => `- ID: ${c.id}, 名稱: ${c.name}, 功效: ${c.benefit}`).join('\n')}
 
     請根據影像中的面部特徵進行「靈氣能量閱讀」。
-    **重要檢查**：請首先檢查圖片中是否包含清晰的人類五官。如果無法識別出清晰的面部（例如：圖片模糊、非人像、遮擋嚴重），請將返回 JSON 中的 `faceDetected` 設為 `false`，其餘欄位留空字串或空陣列。如果五官清晰，請將 `faceDetected` 設為 `true` 並繼續分析。
+    **重要檢查**：請首先檢查圖片中是否包含清晰的人類五官。如果無法識別出清晰的面部（例如：圖片模糊、非人像、遮擋嚴重），請將返回 JSON 中的 "faceDetected" 設為 "false"，其餘欄位留空字串或空陣列。如果五官清晰，請將 "faceDetected" 設為 "true" 並繼續分析。
 
     **分析指引**（僅在 faceDetected 為 true 時）：
     請使用專業的面相學術語（如：天庭、地閣、財帛宮、眉宇間等）解釋特徵與其「${userInfo.intent}」及當前人生運勢的關聯。
