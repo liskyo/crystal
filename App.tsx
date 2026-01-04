@@ -49,6 +49,7 @@ const App: React.FC = () => {
   };
 
   const handleCapture = async (image: string) => {
+    setError(null); // Clear previous errors
     setCapturedImage(image);
     setState(AppState.ANALYZING);
     try {

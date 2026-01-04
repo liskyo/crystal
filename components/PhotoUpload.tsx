@@ -50,7 +50,10 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({ onCapture }) => {
                 </>
             ) : (
                 <div className="text-center">
-                    <div className="w-20 h-20 mx-auto border-2 border-dashed border-indigo-400 rounded-full flex items-center justify-center mb-4 text-indigo-400 text-4xl">
+                    <div
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-20 h-20 mx-auto border-2 border-dashed border-indigo-400 rounded-full flex items-center justify-center mb-4 text-indigo-400 text-4xl cursor-pointer hover:bg-white/5 transition-colors"
+                    >
                         +
                     </div>
                     <p className="text-slate-300 mb-6">請上傳清晰五官照片</p>
