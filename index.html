@@ -133,6 +133,36 @@
       transform: scale(1.05);
     }
 
+    @keyframes love-pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 20px rgba(236, 72, 153, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+      }
+    }
+
+    .btn-love {
+      background: linear-gradient(45deg, #fbbf24, #f472b6, #db2777, #fbbf24);
+      background-size: 300% 300%;
+      animation: btn-bg-flow 6s ease infinite, love-pulse 2s infinite;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-love:hover {
+      background-size: 400% 400%;
+      animation: btn-bg-flow 3s ease infinite, love-pulse 1s infinite;
+      box-shadow: 0 0 30px rgba(236, 72, 153, 0.6);
+      transform: scale(1.05);
+    }
+
     .aura-container {
       position: relative;
     }

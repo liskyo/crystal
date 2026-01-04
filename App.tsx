@@ -151,7 +151,7 @@ const App: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleStart(DivinationMode.LOVED_ONE)}
-                  className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:bg-white/20 hover:scale-105 active:scale-95 transition-all text-center min-w-[200px]"
+                  className="btn-love px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all text-center min-w-[200px]"
                 >
                   幫我所愛的人占卜
                 </button>
