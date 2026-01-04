@@ -68,50 +68,82 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     請務必以「繁體中文」回答，並返回符合以下結構的 JSON 對象。
     `;
 
-        const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview", // Consider falling back to "gemini-1.5-flash" if this model is unstable
-            contents: [
-                {
-                    parts: [
-                        { text: prompt },
-                        {
-                            inlineData: {
-                                mimeType: "image/jpeg",
-                                data: base64Image.split(',')[1] // Ensure we only send the base64 part
-                            }
-                        }
-                    ]
-                }
-            ],
-            config: {
-                responseMimeType: "application/json",
-                responseSchema: {
-                    type: "OBJECT" as any,
-                    properties: {
-                        faceDetected: { type: "BOOLEAN" as any, description: "是否檢測到清晰的五官" },
-                        faceTraits: {
-                            type: "ARRAY" as any,
-                            items: {
-                                type: "OBJECT" as any,
-                                properties: {
-                                    trait: { type: "STRING" as any, description: "分析的具體面部特徵 (例如：額頭、雙眼、下頷)" },
-                                    meaning: { type: "STRING" as any, description: "該特徵在能量閱讀中的意義" }
-                                },
-                                required: ["trait", "meaning"]
-                            }
-                        },
-                        auraColor: { type: "STRING" as any, description: "代表其當前能量場的顏色名稱" },
-                        energyReading: { type: "STRING" as any, description: "對其能量狀態的富有詩意的總結" },
-                        recommendationReason: { type: "STRING" as any, description: "說服力強的解釋，說明為何這款水晶對其現在至關重要" },
-                        suggestedCrystalId: { type: "STRING" as any, description: "推薦的水晶 ID" }
-                    },
-                    required: ["faceDetected", "faceTraits", "auraColor", "energyReading", "recommendationReason", "suggestedCrystalId"]
-                }
-            }
-        });
+        // Fallback strategy: Try preferred model first, then fallback to stable model if rate limited
+        const models = ["gemini-3-flash-preview", "gemini-1.5-flash"];
+        let lastError: any = null;
 
-        const result = JSON.parse(response.text || "{}");
-        return res.status(200).json(result);
+        for (const model of models) {
+            try {
+                console.log(`Attempting analysis with model: ${model}`);
+                const response = await ai.models.generateContent({
+                    model: model,
+                    contents: [
+                        {
+                            parts: [
+                                { text: prompt },
+                                {
+                                    inlineData: {
+                                        mimeType: "image/jpeg",
+                                        data: base64Image.split(',')[1] // Ensure we only send the base64 part
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    config: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT" as any,
+                            properties: {
+                                faceDetected: { type: "BOOLEAN" as any, description: "是否檢測到清晰的五官" },
+                                faceTraits: {
+                                    type: "ARRAY" as any,
+                                    items: {
+                                        type: "OBJECT" as any,
+                                        properties: {
+                                            trait: { type: "STRING" as any, description: "分析的具體面部特徵 (例如：額頭、雙眼、下頷)" },
+                                            meaning: { type: "STRING" as any, description: "該特徵在能量閱讀中的意義" }
+                                        },
+                                        required: ["trait", "meaning"]
+                                    }
+                                },
+                                auraColor: { type: "STRING" as any, description: "代表其當前能量場的顏色名稱" },
+                                energyReading: { type: "STRING" as any, description: "對其能量狀態的富有詩意的總結" },
+                                recommendationReason: { type: "STRING" as any, description: "說服力強的解釋，說明為何這款水晶對其現在至關重要" },
+                                suggestedCrystalId: { type: "STRING" as any, description: "推薦的水晶 ID" }
+                            },
+                            required: ["faceDetected", "faceTraits", "auraColor", "energyReading", "recommendationReason", "suggestedCrystalId"]
+                        }
+                    }
+                });
+
+                const result = JSON.parse(response.text || "{}");
+                return res.status(200).json(result);
+
+            } catch (error: any) {
+                console.error(`Error with model ${model}:`, error.message);
+                lastError = error;
+
+                // Check for Quota/Rate Limit (429) or Service Unavailable (503)
+                const isQuotaError =
+                    error.message?.includes('429') ||
+                    error.message?.includes('quota') ||
+                    error.message?.includes('RESOURCE_EXHAUSTED') ||
+                    error.status === 429 ||
+                    error.code === 429;
+
+                if (isQuotaError && model !== models[models.length - 1]) {
+                    console.log(`Quota exceeded for ${model}, failing over to next model...`);
+                    continue; // Try loop again with next model
+                }
+
+                // If it's not a recoverable error or it's the last model, break to throw
+                break;
+            }
+        }
+
+        // If we get here and haven't returned, throw the last error
+        if (lastError) throw lastError;
 
     } catch (error: any) {
         console.error('API Error Full Details:', error);
