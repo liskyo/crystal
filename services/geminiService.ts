@@ -37,7 +37,7 @@ export const analyzeFaceAndCrystal = async (
   `;
 
   const response = await ai.models.generateContent({
-    model: "gemini-3-flash",
+    model: "gemini-2.0-flash-exp",
     contents: [
       {
         parts: [
