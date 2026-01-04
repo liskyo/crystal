@@ -34,11 +34,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             availableCrystals: CrystalProduct[];
         };
 
-        const apiKey = process.env.GEMINI_API_KEY;
-        if (!apiKey) {
+        // Support for multiple API keys (Key Rotation)
+        // Users can input keys separated by commas in Vercel env: "Key1,Key2,Key3"
+        const apiKeys = (process.env.GEMINI_API_KEY || '').split(',').map(k => k.trim()).filter(k => k);
+
+        if (apiKeys.length === 0) {
             console.error('API Key is missing in process.env');
             return res.status(500).json({ error: 'Server configuration error: API Key missing' });
         }
+
+        // Randomly select one key to distribute load
+        const apiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+        console.log(`Using API Key index: ${apiKeys.indexOf(apiKey)} (Total keys: ${apiKeys.length})`);
 
         const ai = new GoogleGenAI({ apiKey });
 
