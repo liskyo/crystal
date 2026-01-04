@@ -1,9 +1,8 @@
 
 import { GoogleGenAI } from "@google/genai";
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-export const config = {
-    runtime: 'edge', // Optional: Use Edge runtime for faster cold starts, or remove for Node.js
-};
+// Removed Edge runtime config to ensure compatibility with @google/genai SDK in standard Node.js environment
 
 // Start Translation of types locally to avoid import issues in pure function
 interface CrystalProduct {
@@ -22,13 +21,14 @@ interface UserInfo {
     intent: string;
 }
 
-export default async function handler(req: Request) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method !== 'POST') {
-        return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        const { base64Image, userInfo, availableCrystals } = await req.json() as {
+        // Vercel automatically parses JSON body for Node.js functions
+        const { base64Image, userInfo, availableCrystals } = req.body as {
             base64Image: string;
             userInfo: UserInfo;
             availableCrystals: CrystalProduct[];
@@ -36,7 +36,8 @@ export default async function handler(req: Request) {
 
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
-            return new Response(JSON.stringify({ error: 'Server configuration error: API Key missing' }), { status: 500 });
+            console.error('API Key is missing in process.env');
+            return res.status(500).json({ error: 'Server configuration error: API Key missing' });
         }
 
         const ai = new GoogleGenAI({ apiKey });
@@ -67,14 +68,8 @@ export default async function handler(req: Request) {
     請務必以「繁體中文」回答，並返回符合以下結構的 JSON 對象。
     `;
 
-        // Note: Using standard fetch/REST or the SDK. 
-        // The SDK usage in the previous file was: await ai.models.generateContent({...})
-        // To minimize breaking changes, we keep using the SDK if it works in Edge/Node.
-        // However, @google/genai might need polyfills in Edge. 
-        // Let's stick to Node.js runtime (default) to be safe with the SDK, so I will remove `runtime: 'edge'`.
-
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
+            model: "gemini-3-flash-preview", // Consider falling back to "gemini-1.5-flash" if this model is unstable
             contents: [
                 {
                     parts: [
@@ -90,11 +85,8 @@ export default async function handler(req: Request) {
             ],
             config: {
                 responseMimeType: "application/json",
-                // We can't import Type from @google/genai easily if we want to send a clean JSON back without type issues,
-                // but we can manually define the schema structure or just trust the prompt since the SDK handles it.
-                // Actually, let's copy the schema object structure to be safe.
                 responseSchema: {
-                    type: "OBJECT" as any, // Cast to any to avoid type import struggles in this standalone file
+                    type: "OBJECT" as any,
                     properties: {
                         faceDetected: { type: "BOOLEAN" as any, description: "是否檢測到清晰的五官" },
                         faceTraits: {
@@ -119,13 +111,14 @@ export default async function handler(req: Request) {
         });
 
         const result = JSON.parse(response.text || "{}");
-        return new Response(JSON.stringify(result), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return res.status(200).json(result);
 
-    } catch (error) {
-        console.error('API Error:', error);
-        return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+    } catch (error: any) {
+        console.error('API Error Full Details:', error);
+        // Return the actual error message to help debugging
+        return res.status(500).json({
+            error: error.message || 'Internal Server Error',
+            details: error.toString()
+        });
     }
 }
