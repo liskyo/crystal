@@ -140,7 +140,7 @@ const App: React.FC = () => {
                 alt="Mystical Crystals"
                 className="w-full max-w-2xl h-80 object-cover rounded-[3rem] shadow-2xl opacity-60 grayscale hover:grayscale-0 transition-all duration-1000"
               />
-              <div className="absolute inset-0 flex flex-col md:flex-row items-center justify-center gap-6">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
                 <button
                   onClick={() => handleStart(DivinationMode.SELF)}
                   className="btn-cosmic px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all text-center min-w-[200px]"
