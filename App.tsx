@@ -110,8 +110,17 @@ const App: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <button className="mt-8 w-full bg-white text-slate-950 font-bold py-4 rounded-2xl hover:bg-indigo-50 transition-all">
-                  連結此水晶頻率
+                <button
+                  onClick={() => {
+                    if (selectedProduct.externalLink) {
+                      window.open(selectedProduct.externalLink, '_blank');
+                    } else {
+                      alert(`已將 ${selectedProduct.name} 加入能量清單`);
+                    }
+                  }}
+                  className="mt-8 w-full bg-white text-slate-950 font-bold py-4 rounded-2xl hover:bg-indigo-50 transition-all"
+                >
+                  {selectedProduct.externalLink ? '即刻前往此能量' : '連結此水晶頻率'}
                 </button>
               </div>
             </div>
