@@ -12,8 +12,8 @@ const CrystalCard: React.FC<CrystalCardProps> = ({ product, isRecommendation, on
   return (
     <div className={`group bg-slate-900/40 rounded-3xl overflow-hidden border transition-all duration-500 ${isRecommendation ? 'border-amber-400/50 scale-105 shadow-2xl shadow-amber-900/20' : 'border-slate-800 hover:border-slate-600'}`}>
       <div className="relative aspect-square overflow-hidden cursor-pointer" onClick={() => onAction?.(product)}>
-        <img 
-          src={product.image} 
+        <img
+          src={product.image}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
@@ -43,11 +43,17 @@ const CrystalCard: React.FC<CrystalCardProps> = ({ product, isRecommendation, on
             </span>
           ))}
         </div>
-        <button 
-          onClick={() => alert(`已將 ${product.name} 加入能量清單`)}
+        <button
+          onClick={() => {
+            if (product.externalLink) {
+              window.open(product.externalLink, '_blank');
+            } else {
+              alert(`已將 ${product.name} 加入能量清單`);
+            }
+          }}
           className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-3 rounded-xl transition-all active:scale-95 shadow-lg shadow-indigo-500/20"
         >
-          即刻連結此能量
+          {product.externalLink ? '即刻前往此能量' : '即刻連結此能量'}
         </button>
         <p className="text-[10px] text-center mt-3 text-slate-500 uppercase tracking-tighter">當前頻率下僅餘 3 件</p>
       </div>

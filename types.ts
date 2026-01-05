@@ -13,6 +13,7 @@ export interface CrystalProduct {
   image: string;
   price: number;
   tags: string[];
+  externalLink?: string;
 }
 
 export interface AnalysisResult {
