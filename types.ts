@@ -33,7 +33,9 @@ export enum AppState {
   INPUT = 'INPUT',
   SCANNING = 'SCANNING',
   ANALYZING = 'ANALYZING',
-  RESULT = 'RESULT'
+  RESULT = 'RESULT',
+  ADMIN_LOGIN = 'ADMIN_LOGIN',
+  ADMIN_DASHBOARD = 'ADMIN_DASHBOARD'
 }
 
 export enum DivinationMode {

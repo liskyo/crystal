@@ -8,6 +8,9 @@ import PhotoUpload from './components/PhotoUpload';
 import CrystalCard from './components/CrystalCard';
 import StarrySky from './components/StarrySky';
 import CrystalIcon from './components/CrystalIcon';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
+import { getProducts } from './services/productService';
 
 const App: React.FC = () => {
   const [state, setState] = useState<AppState>(AppState.IDLE);
@@ -18,8 +21,12 @@ const App: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<CrystalProduct | null>(null);
   const [visitorCount, setVisitorCount] = useState<number>(1234);
   const [divinationMode, setDivinationMode] = useState<DivinationMode>(DivinationMode.SELF);
+  const [secretClickCount, setSecretClickCount] = useState(0);
+  const [availableProducts, setAvailableProducts] = useState<CrystalProduct[]>([]);
 
   useEffect(() => {
+    // Load dynamic products
+    getProducts().then(setAvailableProducts);
     const savedCount = localStorage.getItem('visitorCount');
     let newCount = 1234;
     if (savedCount) {
@@ -30,12 +37,22 @@ const App: React.FC = () => {
   }, []);
 
   const recommendedProduct = result
-    ? CRYSTAL_PRODUCTS.find(p => p.id === result.suggestedCrystalId) || CRYSTAL_PRODUCTS[0]
+    ? availableProducts.find(p => p.id === result.suggestedCrystalId) || availableProducts[0]
     : null;
 
   const otherProducts = result
-    ? CRYSTAL_PRODUCTS.filter(p => p.id !== result.suggestedCrystalId)
-    : CRYSTAL_PRODUCTS;
+    ? availableProducts.filter(p => p.id !== result.suggestedCrystalId)
+    : availableProducts;
+
+  const handleSecretClick = () => {
+    setSecretClickCount(prev => {
+      if (prev + 1 >= 5) {
+        setState(AppState.ADMIN_LOGIN);
+        return 0;
+      }
+      return prev + 1;
+    });
+  };
 
   const handleStart = (mode: DivinationMode) => {
     setDivinationMode(mode);
@@ -55,7 +72,7 @@ const App: React.FC = () => {
     setCapturedImage(image);
     setState(AppState.ANALYZING);
     try {
-      const analysis = await analyzeFaceAndCrystal(image, userInfo, CRYSTAL_PRODUCTS);
+      const analysis = await analyzeFaceAndCrystal(image, userInfo, availableProducts);
       if (analysis.faceDetected) {
         setResult(analysis);
         setState(AppState.RESULT);
@@ -134,7 +151,10 @@ const App: React.FC = () => {
       {/* Header */}
       <div className="text-center mb-12 relative z-10 flex flex-col items-center">
         <CrystalIcon className="w-24 h-24 mb-6" />
-        <div className="inline-block px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest uppercase mb-4">
+        <div 
+          className="inline-block px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest uppercase mb-4 cursor-pointer select-none"
+          onClick={handleSecretClick}
+        >
           精準能量場分析系統
         </div>
         <h1 className="text-5xl md:text-7xl font-serif font-black mb-4 tracking-tight whitespace-nowrap text-crystal">
@@ -146,6 +166,20 @@ const App: React.FC = () => {
       </div>
 
       <main className="w-full">
+        {state === AppState.ADMIN_LOGIN && (
+          <AdminLogin 
+            onLogin={() => setState(AppState.ADMIN_DASHBOARD)} 
+            onCancel={() => setState(AppState.IDLE)} 
+          />
+        )}
+        
+        {state === AppState.ADMIN_DASHBOARD && (
+          <AdminDashboard onClose={() => {
+            setState(AppState.IDLE);
+            getProducts().then(setAvailableProducts); // refresh products when closing dashboard
+          }} />
+        )}
+
         {state === AppState.IDLE && (
           <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <div className="relative inline-block mb-8 aura-container p-8 w-full max-w-sm">
