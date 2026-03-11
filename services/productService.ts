@@ -12,27 +12,28 @@ export const getProducts = async (): Promise<CrystalProduct[]> => {
     const { data, error } = await supabase
       .from('products')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('id', { ascending: true });
 
     if (error) {
       console.error('Error fetching products from Supabase:', error);
-      // Fallback to local storage custom products + static if Supabase fails
       return getMergedLocalProducts();
     }
 
-    // Convert Supabase rows to CrystalProduct type
-    const supabaseProducts: CrystalProduct[] = (data || []).map(row => ({
-      id: row.id,
-      name: row.name,
-      description: row.description,
-      benefit: row.benefit,
-      image: row.image_url,
-      price: row.price,
-      tags: row.tags || [],
-      externalLink: row.external_link || undefined
-    }));
+    if (data && data.length > 0) {
+      // Convert Supabase rows to CrystalProduct type
+      return data.map(row => ({
+        id: row.id.toString(),
+        name: row.name,
+        description: row.description,
+        benefit: row.benefit,
+        image: row.image_url.startsWith('http') ? row.image_url : (import.meta.env.BASE_URL + row.image_url),
+        price: row.price,
+        tags: row.tags || [],
+        externalLink: row.external_link || undefined
+      }));
+    }
 
-    return [...supabaseProducts, ...CRYSTAL_PRODUCTS];
+    return CRYSTAL_PRODUCTS;
   } catch (err) {
     console.warn('Network error or Supabase not configured. Using local fallback.');
     return getMergedLocalProducts();
