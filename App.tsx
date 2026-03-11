@@ -6,6 +6,8 @@ import { analyzeFaceAndCrystal } from './services/geminiService';
 import CameraFeed from './components/CameraFeed';
 import PhotoUpload from './components/PhotoUpload';
 import CrystalCard from './components/CrystalCard';
+import StarrySky from './components/StarrySky';
+import CrystalIcon from './components/CrystalIcon';
 
 const App: React.FC = () => {
   const [state, setState] = useState<AppState>(AppState.IDLE);
@@ -80,7 +82,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-6xl mx-auto px-4 py-12 flex flex-col items-center justify-center">
+    <div className="min-h-screen max-w-6xl mx-auto px-4 py-12 flex flex-col items-center justify-center relative">
+      <StarrySky />
       {/* 詳情彈窗 Modal */}
       {selectedProduct && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
@@ -129,7 +132,8 @@ const App: React.FC = () => {
       )}
 
       {/* Header */}
-      <div className="text-center mb-12">
+      <div className="text-center mb-12 relative z-10 flex flex-col items-center">
+        <CrystalIcon className="w-24 h-24 mb-6" />
         <div className="inline-block px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest uppercase mb-4">
           精準能量場分析系統
         </div>
@@ -144,23 +148,18 @@ const App: React.FC = () => {
       <main className="w-full">
         {state === AppState.IDLE && (
           <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            <div className="relative inline-block mb-8 aura-container">
-              <img
-                src="https://images.unsplash.com/photo-1567016507665-356928ac6679?q=80&w=800&auto=format&fit=crop"
-                alt="Mystical Crystals"
-                className="w-full max-w-2xl h-80 object-cover rounded-[3rem] shadow-2xl opacity-60 grayscale hover:grayscale-0 transition-all duration-1000"
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
+            <div className="relative inline-block mb-8 aura-container p-8 w-full max-w-sm">
+              <div className="flex flex-col items-center justify-center gap-6">
                 {/* Vertical layout for buttons */}
                 <button
                   onClick={() => handleStart(DivinationMode.SELF)}
-                  className="btn-cosmic px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all text-center min-w-[200px]"
+                  className="btn-cosmic px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all w-full"
                 >
                   開始個人能量占卜
                 </button>
                 <button
                   onClick={() => handleStart(DivinationMode.LOVED_ONE)}
-                  className="btn-love px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all text-center min-w-[200px]"
+                  className="btn-love px-8 py-5 rounded-2xl font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all w-full"
                 >
                   幫我所愛的人占卜
                 </button>
