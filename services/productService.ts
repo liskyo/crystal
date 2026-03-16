@@ -152,3 +152,44 @@ export const deleteProduct = async (id: string) => {
     return false;
   }
 };
+/**
+ * Updates an existing product in Supabase.
+ */
+export const updateProduct = async (id: string, updates: Partial<Omit<CrystalProduct, 'id'>>) => {
+  try {
+    // If it's a locally added product fallback
+    if (id.startsWith('local_')) {
+      const existing = localStorage.getItem('custom_products');
+      if (existing) {
+        let products = JSON.parse(existing) as CrystalProduct[];
+        const index = products.findIndex(p => p.id === id);
+        if (index !== -1) {
+          products[index] = { ...products[index], ...updates };
+          localStorage.setItem('custom_products', JSON.stringify(products));
+        }
+      }
+      return true;
+    }
+
+    // Map fields to Supabase snake_case
+    const supabaseUpdates: any = {};
+    if (updates.name) supabaseUpdates.name = updates.name;
+    if (updates.description) supabaseUpdates.description = updates.description;
+    if (updates.benefit) supabaseUpdates.benefit = updates.benefit;
+    if (updates.price !== undefined) supabaseUpdates.price = updates.price;
+    if (updates.image) supabaseUpdates.image_url = updates.image;
+    if (updates.tags) supabaseUpdates.tags = updates.tags;
+    if (updates.externalLink !== undefined) supabaseUpdates.external_link = updates.externalLink || null;
+
+    const { error } = await supabase
+      .from('products')
+      .update(supabaseUpdates)
+      .eq('id', id);
+
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error('Error updating product', error);
+    return false;
+  }
+};
