@@ -91,6 +91,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     });
     setEditingId(p.id);
     setIsAdding(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const closeForm = () => {
@@ -230,7 +231,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
               {products.map(p => {
-                const isCustom = !p.id.startsWith('c') && !p.id.startsWith('n');
                 return (
                   <div key={p.id} className="group/item flex flex-col h-full animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="aspect-[4/5] relative bg-slate-950 rounded-3xl overflow-hidden border border-slate-800/50 shadow-lg group-hover/item:border-indigo-500/30 transition-all duration-500 mb-4">
@@ -239,32 +239,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       {/* Action Overlay */}
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 p-4">
                         <button 
-                          onClick={() => setViewingProduct(p)}
+                          onClick={() => handleEdit(p)}
                           className="w-full py-2 bg-white text-black text-[10px] font-bold rounded-xl hover:bg-indigo-50 transition-colors uppercase tracking-widest"
                         >
-                          快速查看
+                          編輯此商品
                         </button>
                         
-                        {isCustom && (
-                          <div className="w-full flex gap-2">
-                            <button 
-                              onClick={() => handleEdit(p)}
-                              className="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-bold rounded-xl hover:bg-indigo-500 transition-colors uppercase tracking-widest"
-                            >
-                              編輯
-                            </button>
-                            <button 
-                              onClick={() => handleDelete(p.id, p.name)}
-                              className="w-10 h-10 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all flex items-center justify-center"
-                              title="刪除"
-                            >
-                              ✕
-                            </button>
-                          </div>
-                        )}
-                        {!isCustom && (
-                          <div className="absolute top-2 left-2 px-2 py-1 bg-indigo-500/20 text-indigo-400 text-[8px] font-bold rounded-md uppercase border border-indigo-500/20 backdrop-blur-md">系統內建</div>
-                        )}
+                        <div className="w-full flex gap-2">
+                          <button 
+                            onClick={() => handleEdit(p)}
+                            className="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-bold rounded-xl hover:bg-indigo-500 transition-colors uppercase tracking-widest"
+                          >
+                            修改
+                          </button>
+                          <button 
+                            onClick={() => handleDelete(p.id, p.name)}
+                            className="w-10 h-10 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all flex items-center justify-center"
+                            title="刪除"
+                          >
+                            ✕
+                          </button>
+                        </div>
                       </div>
                     </div>
                     
