@@ -107,9 +107,10 @@ const App: React.FC = () => {
           <div className="relative w-full max-w-2xl bg-slate-900 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
             <button
               onClick={() => setSelectedProduct(null)}
-              className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all"
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-[110] w-12 h-12 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all border border-white/20 active:scale-95 shadow-xl"
+              aria-label="關閉"
             >
-              ✕
+              <span className="text-xl">✕</span>
             </button>
             <div className="flex flex-col md:flex-row">
               <div className="md:w-1/2 aspect-square">

@@ -291,9 +291,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="bg-slate-900 w-full max-w-4xl rounded-[3rem] overflow-hidden shadow-2xl border border-slate-800 flex flex-col md:flex-row relative">
             <button 
               onClick={() => setViewingProduct(null)}
-              className="absolute top-6 right-6 z-10 w-10 h-10 bg-black/50 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-all border border-white/10"
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-[250] w-12 h-12 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-all border border-white/20 active:scale-95 shadow-xl"
+              aria-label="關閉"
             >
-              ✕
+              <span className="text-xl">✕</span>
             </button>
             
             <div className="w-full md:w-1/2 aspect-square md:aspect-auto">

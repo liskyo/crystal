@@ -33,7 +33,8 @@ export const getProducts = async (): Promise<CrystalProduct[]> => {
       }));
     }
 
-    return CRYSTAL_PRODUCTS;
+    // Only return empty if Supabase says so, do not fallback to default products
+    return [];
   } catch (err) {
     console.warn('Network error or Supabase not configured. Using local fallback.');
     return getMergedLocalProducts();
@@ -49,12 +50,12 @@ const getMergedLocalProducts = (): CrystalProduct[] => {
     const local = localStorage.getItem('custom_products');
     if (local) {
       const parsed = JSON.parse(local) as CrystalProduct[];
-      return [...parsed, ...CRYSTAL_PRODUCTS];
+      return [...parsed];
     }
   } catch (e) {
     console.error('Failed to parse local products', e);
   }
-  return CRYSTAL_PRODUCTS;
+  return [];
 };
 
 /**
