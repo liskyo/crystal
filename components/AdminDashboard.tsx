@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getProducts, addProduct, updateProduct, deleteProduct, uploadProductImage } from '../services/productService';
 import { CrystalProduct } from '../types';
 
@@ -13,6 +13,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [viewingProduct, setViewingProduct] = useState<CrystalProduct | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const [formProduct, setFormProduct] = useState({
     name: '',
@@ -91,7 +92,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     });
     setEditingId(p.id);
     setIsAdding(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const closeForm = () => {
@@ -111,7 +114,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[150] bg-black/95 backdrop-blur-md overflow-y-auto outline-none">
+    <div 
+      ref={scrollContainerRef}
+      className="fixed inset-0 z-[150] bg-black/95 backdrop-blur-md overflow-y-auto outline-none"
+    >
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-10">
           <div>
