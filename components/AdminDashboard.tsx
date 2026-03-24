@@ -110,7 +110,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[150] bg-black/95 backdrop-blur-2xl overflow-y-auto outline-none">
+    <div className="fixed inset-0 z-[150] bg-black/95 backdrop-blur-md overflow-y-auto outline-none">
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-10">
           <div>
@@ -234,7 +234,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 return (
                   <div key={p.id} className="group/item flex flex-col h-full animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="aspect-[4/5] relative bg-slate-950 rounded-3xl overflow-hidden border border-slate-800/50 shadow-lg group-hover/item:border-indigo-500/30 transition-all duration-500 mb-4">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-700" />
+                      <img src={p.image} alt={p.name} className="w-full h-full object-cover md:group-hover/item:scale-110 transition-transform duration-700" />
                       
                       {/* Action Overlay */}
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 p-4">
@@ -289,19 +289,29 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {viewingProduct && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
           <div className="bg-slate-900 w-full max-w-4xl rounded-[3rem] overflow-hidden shadow-2xl border border-slate-800 flex flex-col md:flex-row relative">
-            <button 
-              onClick={() => setViewingProduct(null)}
-              className="absolute top-4 right-4 md:top-6 md:right-6 z-[250] w-12 h-12 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-all border border-white/20 active:scale-95 shadow-xl"
-              aria-label="關閉"
-            >
-              <span className="text-xl">✕</span>
-            </button>
             
             <div className="w-full md:w-1/2 aspect-square md:aspect-auto">
               <img src={viewingProduct.image} alt={viewingProduct.name} className="w-full h-full object-cover" />
             </div>
             
-            <div className="w-full md:w-1/2 p-10 md:p-12 overflow-y-auto max-h-[70vh] md:max-h-none">
+            <div className="w-full md:w-1/2 p-10 md:p-12 overflow-y-auto max-h-[70vh] md:max-h-none relative">
+              <button 
+                onClick={() => setViewingProduct(null)}
+                className="absolute top-6 right-6 z-20 w-12 h-12 bg-slate-800/80 hover:bg-slate-700 text-white rounded-full flex items-center justify-center transition-all border border-white/10 active:scale-95 shadow-xl md:hidden"
+                aria-label="關閉"
+              >
+                <span className="text-xl">✕</span>
+              </button>
+              
+              {/* Desktop Close Button (Stays at original place if desired, or we can move it too) */}
+              <button 
+                onClick={() => setViewingProduct(null)}
+                className="hidden md:flex absolute top-6 right-6 z-20 w-10 h-10 bg-black/50 hover:bg-black/80 text-white rounded-full items-center justify-center transition-all border border-white/10"
+                aria-label="關閉"
+              >
+                ✕
+              </button>
+
               <div className="text-indigo-400 text-xs font-bold tracking-[0.3em] uppercase mb-4">Product Details</div>
               <h3 className="text-3xl font-serif font-bold text-white mb-2">{viewingProduct.name}</h3>
               <div className="text-2xl text-slate-400 mb-8 font-light">NT$ {viewingProduct.price.toLocaleString()}</div>

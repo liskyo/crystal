@@ -103,20 +103,27 @@ const App: React.FC = () => {
       <StarrySky />
       {/* 詳情彈窗 Modal */}
       {selectedProduct && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 animate-in fade-in duration-300">
           <div className="relative w-full max-w-2xl bg-slate-900 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
-            <button
-              onClick={() => setSelectedProduct(null)}
-              className="absolute top-4 right-4 md:top-6 md:right-6 z-[110] w-12 h-12 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all border border-white/20 active:scale-95 shadow-xl"
-              aria-label="關閉"
-            >
-              <span className="text-xl">✕</span>
-            </button>
             <div className="flex flex-col md:flex-row">
               <div className="md:w-1/2 aspect-square">
                 <img src={selectedProduct.image} className="w-full h-full object-cover" alt={selectedProduct.name} />
               </div>
-              <div className="md:w-1/2 p-8 flex flex-col">
+              <div className="md:w-1/2 p-8 flex flex-col relative">
+                <button
+                  onClick={() => setSelectedProduct(null)}
+                  className="absolute top-6 right-6 z-20 w-12 h-12 rounded-full bg-slate-800/80 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all md:hidden active:scale-95 shadow-xl"
+                  aria-label="關閉"
+                >
+                  <span className="text-xl">✕</span>
+                </button>
+                <button
+                  onClick={() => setSelectedProduct(null)}
+                  className="hidden md:flex absolute top-6 right-6 z-20 w-10 h-10 rounded-full bg-black/50 text-white items-center justify-center hover:bg-white hover:text-black transition-all"
+                  aria-label="關閉"
+                >
+                  ✕
+                </button>
                 <div className="flex-1">
                   <h2 className="text-3xl font-serif font-bold text-white mb-2">{selectedProduct.name}</h2>
                   <div className="text-amber-400 font-bold text-xl mb-4">NT$ {selectedProduct.price}</div>
@@ -396,7 +403,7 @@ const App: React.FC = () => {
                       className="cursor-pointer bg-slate-900/40 border border-slate-800 rounded-3xl overflow-hidden hover:border-indigo-500/50 transition-all hover:-translate-y-2"
                     >
                       <div className="aspect-square relative overflow-hidden">
-                        <img src={p.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={p.name} />
+                        <img src={p.image} className="w-full h-full object-cover md:group-hover:scale-110 transition-transform duration-500" alt={p.name} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
                         <div className="absolute bottom-4 left-4 right-4">
                           <h4 className="text-white font-bold truncate">{p.name}</h4>
